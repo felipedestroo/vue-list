@@ -1,38 +1,141 @@
-# vue-list
+# Vue Todo List
 
-This template should help get you started developing with Vue 3 in Vite.
+Aplicacao de lista de tarefas desenvolvida com Vue 3, Vuex, Vite e JSON Server. O projeto foi estruturado como uma peca de portfolio para demonstrar organizacao de componentes, gerenciamento de estado, integracao com API REST local e uma interface responsiva.
 
-## Recommended IDE Setup
+## Visao Geral
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+O Vue Todo List permite cadastrar, listar, concluir e remover tarefas. As alteracoes sao persistidas em uma API local baseada em JSON Server, enquanto a interface e atualizada imediatamente por meio do estado global com Vuex.
 
-## Recommended Browser Setup
+### Principais recursos
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- Listagem de tarefas carregadas da API local.
+- Cadastro de novas tarefas sem recarregar a pagina.
+- Marcacao de tarefas como concluidas ou pendentes.
+- Remocao de tarefas com sincronizacao entre backend e Vuex.
+- Estado global centralizado com Vuex.
+- Layout responsivo para desktop, tablet e mobile.
+- Configuracao do Vite para evitar reload automatico quando o banco JSON e alterado.
 
-## Customize configuration
+## Tecnologias
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- Vue 3
+- Vuex 4
+- Vite
+- Tailwind CSS
+- Axios
+- JSON Server
 
-## Project Setup
+## Estrutura de Pastas
+
+```txt
+vue-list/
+├── api/
+│   └── database.json          # Base de dados local usada pelo JSON Server
+├── public/
+│   └── favicon.ico
+├── src/
+│   ├── assets/
+│   │   ├── css/
+│   │   │   └── main.css       # Importacao do Tailwind e estilos globais
+│   │   └── img/
+│   │       └── spinner.svg    # Indicador visual de carregamento
+│   ├── components/
+│   │   ├── ToDoEmpty.vue      # Estado vazio da lista
+│   │   ├── ToDoFormAdd.vue    # Formulario de cadastro
+│   │   ├── ToDoItem.vue       # Item individual com concluir/remover
+│   │   ├── ToDoItems.vue      # Renderizacao da colecao de tarefas
+│   │   └── ToDoSpinner.vue    # Loading inicial
+│   ├── store/
+│   │   └── index.js           # Estado global, mutations e actions Vuex
+│   ├── App.vue                # Layout principal e carregamento inicial
+│   └── main.js                # Inicializacao da aplicacao Vue
+├── index.html
+├── package.json
+└── vite.config.js
+```
+
+## Como Executar
+
+### 1. Instalar dependencias
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 2. Subir a API local
+
+O projeto consome os dados em `http://localhost:3000/todos`. Execute o JSON Server apontando para o arquivo de banco local:
+
+```sh
+npx json-server api/database.json --port 3000
+```
+
+### 3. Subir a aplicacao Vue
+
+Em outro terminal, execute:
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+Depois acesse a URL exibida pelo Vite, geralmente:
+
+```txt
+http://localhost:5173
+```
+
+## Scripts Disponiveis
+
+```sh
+npm run dev
+```
+
+Executa o servidor de desenvolvimento com Vite.
 
 ```sh
 npm run build
 ```
+
+Gera a versao de producao do projeto.
+
+```sh
+npm run preview
+```
+
+Executa uma previa local do build de producao.
+
+## Fluxo de Dados
+
+O componente `App.vue` dispara a action `getTodos` ao montar a aplicacao. A action busca as tarefas na API e envia os dados para a mutation `storeTodos`, atualizando o estado global.
+
+Ao criar uma tarefa, `ToDoFormAdd.vue` dispara a action `addTodo`. A action faz um `POST` para a API e, depois da resposta, adiciona a nova tarefa ao Vuex com a mutation `storeTodo`.
+
+Ao concluir ou reabrir uma tarefa, `ToDoItem.vue` dispara a action `updateTodo`. A action faz um `PUT` para a API e substitui o item correspondente no estado com a mutation `updateTodo`.
+
+Ao remover uma tarefa, `ToDoItem.vue` dispara a action `deleteTodo`. A action faz um `DELETE` na API e remove o item do estado com a mutation `deleteTodo`.
+
+## Endpoints Utilizados
+
+```txt
+GET    /todos
+POST   /todos
+PUT    /todos/:id
+DELETE /todos/:id
+```
+
+## Observacoes Tecnicas
+
+- O arquivo `api/database.json` fica dentro do projeto para facilitar a execucao local.
+- O Vite foi configurado para ignorar alteracoes nesse arquivo durante o desenvolvimento. Isso evita que a tela recarregue quando o JSON Server salva uma nova tarefa.
+- O estado visual da lista e atualizado pelo Vuex apos cada resposta da API, mantendo a interface sincronizada com o backend local.
+- Os botoes de acao usam `type="button"` para evitar submits acidentais.
+
+## Build
+
+Para validar se o projeto esta pronto para producao:
+
+```sh
+npm run build
+```
+
+O resultado sera gerado na pasta `dist/`.
