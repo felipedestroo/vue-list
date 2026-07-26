@@ -1,17 +1,21 @@
 <template>
-  <div class="space-y-2">
-    <div class="bg-gray-300 rounded-sm">
-        <div class="flex items-center px-4 py-3 border-b border-gray-400 last:border-b-0">
-            <div class="flex items-center justify-center mr-2">
+    <article
+      class="rounded-lg border border-slate-800 bg-slate-900 transition hover:border-slate-700 hover:bg-slate-800/70"
+      :class="{ 'opacity-75': isCompleted }"
+    >
+        <div class="flex items-center gap-3 px-3 py-3 sm:px-4">
+            <div class="flex items-center justify-center">
                 <button 
                   type="button"
+                  aria-label="Alternar status da tarefa"
+                  class="flex h-9 w-9 items-center justify-center rounded-full border transition focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-slate-900"
                   :class="{
-                    'text-green-600': isCompleted,
-                    'text-gray-400': !isCompleted
+                    'border-emerald-400 bg-emerald-400 text-slate-950': isCompleted,
+                    'border-slate-700 bg-slate-950 text-slate-500 hover:border-emerald-400 hover:text-emerald-300': !isCompleted
                   }"
                   @click="onCheckClick"
                 >
-                    <svg class="w-5 h-5" fill="none" 
+                    <svg class="h-5 w-5" fill="none" 
                       stroke="currentColor" viewBox="0 0 24 24" 
                       xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" 
                       stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -25,14 +29,19 @@
                   placeholder="Digite a sua tarefa"
                   readonly
                   :class="{ 'line-through': isCompleted }"
-                  class="bg-gray-300 placeholder-gray-500 text-gray-700 font-light focus:outline-none block w-full appearance-none leading-normal mr-3"
+                  class="block w-full appearance-none bg-transparent text-sm font-medium leading-normal text-slate-100 placeholder-slate-500 outline-none sm:text-base"
                   >
             </div>
 
             <div class="ml-auto flex items-center justify-center">
-              <button type="button" class="focus:outline-none">
+              <button 
+                type="button" 
+                aria-label="Excluir tarefa"
+                class="flex h-9 w-9 items-center justify-center rounded-md text-slate-500 transition hover:bg-rose-500/10 hover:text-rose-300 focus:outline-none focus:ring-2 focus:ring-rose-300 focus:ring-offset-2 focus:ring-offset-slate-900"
+                @click="onDelete"
+              >
                 <svg
-                    class="ml-3 h-4 w-4 text-gray-500"
+                    class="h-5 w-5"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -51,8 +60,7 @@
               </button>
             </div>
           </div>
-      </div>
-  </div>
+    </article>
 </template>
 
 <script>
@@ -100,6 +108,11 @@ export default {
       })
     },
 
+    onDelete() {
+      this.$store.dispatch('deleteTodo', this.todo.id).catch((error) => {
+        console.error('Erro ao excluir tarefa:', error)
+      })
+    }
   },
 }
 </script>

@@ -20,6 +20,9 @@ export default createStore({
       if (index !== -1) {
         state.todos.splice(index, 1, payload)
       }
+    },
+    deleteTodo(state, id) {
+      state.todos = state.todos.filter((todo) => todo.id !== id)
     }
   },
   actions: {
@@ -38,6 +41,11 @@ export default createStore({
     async updateTodo({ commit }, { id, data }) {
       const response = await axios.put(`http://localhost:3000/todos/${id}`, data)
       commit('updateTodo', response.data)
+    },
+
+    async deleteTodo({ commit }, id) {
+      await axios.delete(`http://localhost:3000/todos/${id}`)
+      commit('deleteTodo', id)
     },
   },
 
