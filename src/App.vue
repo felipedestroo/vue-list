@@ -5,7 +5,6 @@ import ToDoEmpty from './components/ToDoEmpty.vue';
 import ToDoFormAdd from './components/ToDoFormAdd.vue';
 import ToDoItems from './components/ToDoItems.vue';
 import ToDoSpinner from './components/ToDoSpinner.vue';
-import axios from 'axios';
 
 const store = useStore();
 const loading = ref(false);
@@ -13,13 +12,13 @@ const todos = computed(() => store.state.todos);
 
 onMounted(() => {
     loading.value = true
-    axios.get('http://localhost:3000/todos')
-        .then((response) => {
-            store.commit('storeTodos', response.data)
+    store.dispatch('getTodos')
+        .catch((error) => {
+            console.error('Erro ao buscar tarefas:', error)
         })
-    .finally(() => {
-        loading.value = false
-    })
+        .finally(() => {
+            loading.value = false
+        })
 });
 
 

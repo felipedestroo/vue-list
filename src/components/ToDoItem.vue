@@ -3,7 +3,14 @@
     <div class="bg-gray-300 rounded-sm">
         <div class="flex items-center px-4 py-3 border-b border-gray-400 last:border-b-0">
             <div class="flex items-center justify-center mr-2">
-                <button class="text-gray-400">
+                <button 
+                  type="button"
+                  :class="{
+                    'text-green-600': isCompleted,
+                    'text-gray-400': !isCompleted
+                  }"
+                  @click="onCheckClick"
+                >
                     <svg class="w-5 h-5" fill="none" 
                       stroke="currentColor" viewBox="0 0 24 24" 
                       xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" 
@@ -13,17 +20,17 @@
 
             <div class="w-full">
               <input
+                  v-model="title"
                   type="text"
                   placeholder="Digite a sua tarefa"
-                  :value="todo.title"
                   readonly
-                  :class="{ 'line-through': todo.completed }"
+                  :class="{ 'line-through': isCompleted }"
                   class="bg-gray-300 placeholder-gray-500 text-gray-700 font-light focus:outline-none block w-full appearance-none leading-normal mr-3"
-                >
+                  >
             </div>
 
             <div class="ml-auto flex items-center justify-center">
-              <button class="focus:outline-none">
+              <button type="button" class="focus:outline-none">
                 <svg
                     class="ml-3 h-4 w-4 text-gray-500"
                     viewBox="0 0 24 24"
@@ -55,6 +62,44 @@ export default {
       type: Object,
       default: () => ({}),
     }
-  }
+  },
+
+  data () {
+    return {
+      title: this.todo.title,
+      isCompleted: this.todo.completed,
+    }
+  },
+
+  methods: {
+    onTitleChange() {
+
+      if (!this.title) {
+        return
+      }
+
+      this.updateTodo()
+    },
+
+    updateTodo() {
+      const payload = {
+        id: this.todo.id,
+        data: {
+          title: this.title,
+          completed: this.isCompleted
+        }
+      }
+      return this.$store.dispatch('updateTodo', payload)
+    },
+
+    onCheckClick() {
+      this.isCompleted = !this.isCompleted
+      this.updateTodo().catch((error) => {
+        this.isCompleted = !this.isCompleted
+        console.error('Erro ao atualizar tarefa:', error)
+      })
+    },
+
+  },
 }
 </script>

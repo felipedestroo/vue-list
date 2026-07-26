@@ -1,19 +1,50 @@
 {
   "todos": [
     {
-      "id": 1,
       "title": "Estudar javascript",
-      "completed": true
+      "completed": false,
+      "id": "1"
     },
     {
-      "id": 2,
       "title": "Estudar Vue",
-      "completed": false
+      "completed": false,
+      "id": "2"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Estudar composition API",
       "completed": false
+    },
+    {
+      "title": "teste",
+      "completed": false,
+      "id": "pqEEhiQZlr8"
+    },
+    {
+      "title": "dd",
+      "completed": false,
+      "id": "lKOdb73-0JY"
+    },
+    {
+      "title": "gdfgd",
+      "completed": true,
+      "id": "gRXEVgQ7Y40"
+    },
+    {
+      "title": "hbr",
+      "completed": false,
+      "id": "Bd8PRgOe9qM"
+    },
+    {
+      "title": "hhhhh",
+      "completed": true,
+      "id": "VmPfLn2mudw"
+    },
+    {
+      "title": "vsdijvhbsd",
+      "completed": false,
+      "id": "JG8hRn2_bDQ"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
