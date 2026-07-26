@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="space-y-3">
         <ToDoItem 
             v-for="todo in $store.state.todos"
             :key="todo.id"

@@ -1,19 +1,19 @@
 <template>
   <form 
     @submit.stop.prevent="addTodo"
-    class="flex items-center px-4 bg-gray-900 h-15 rounded-sm border-l-2 border-green-400 mb-3">
+    class="mb-5 flex flex-col gap-3 rounded-lg border border-slate-700 bg-slate-950 p-3 shadow-inner shadow-black/20 sm:flex-row sm:items-center">
     <input
-    v-model="title"
+      v-model="title"
       placeholder="Adicione um novo item ..."
       type="text"
-      class="bg-gray-900 placeholder-gray-500 text-gray-500 font-light focus:outline-none block w-full appearance-none leading-normal py-3 pr-3"
+      class="min-h-11 flex-1 rounded-md border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-slate-100 placeholder-slate-500 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/20"
     >
 
     <button
-      class="text-green-400 text-xs font-semibold focus:outline-none"
+      class="min-h-11 rounded-md bg-emerald-400 px-5 text-sm font-bold text-slate-950 transition hover:bg-emerald-300 focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-offset-2 focus:ring-offset-slate-950 active:scale-[0.98]"
       type="submit"
     >
-      ADICIONAR
+      Adicionar
     </button>
   </form>
 </template>

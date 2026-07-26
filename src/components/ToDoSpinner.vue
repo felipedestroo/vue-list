@@ -1,9 +1,9 @@
 <template>
-  <div class="text-center">
+  <div class="flex min-h-40 items-center justify-center">
     <img
       src="@/assets/img/spinner.svg"
-      alt=""
-      class="inline-block w-5 h-5"
+      alt="Carregando"
+      class="h-8 w-8"
       >
   </div>
 </template>
